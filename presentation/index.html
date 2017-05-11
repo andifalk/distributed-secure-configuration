@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 
-		<title>Sicher in die Cloud</title>
-        <meta name="description" content="Sicher in die Cloud">
+		<title>Manage distributed configuration and secrets with Spring Cloud and Vault</title>
+        <meta name="description" content="Manage distributed configuration and secrets with Spring Cloud and Vault">
         <meta name="author" content="Andreas Falk">
 
         <link rel="stylesheet" href="css/reveal.css">
@@ -32,44 +32,45 @@
 			<div class="slides">
 
                 <!-- Introduction -->
-
                 <section data-background="images/springio.png" data-background-size="90%">
                     <h3>Manage distributed configuration and secrets with Spring Cloud and Vault</h3>
                     <p>Friday 19th May, 2017</p>
                 </section>
-				<section data-background="images/novatec-back.png">
+                <section data-background="images/novatec-back.png">
                     <h3 style="color: white">Andreas Falk</h3>
                     <p>http://www.novatec-gmbh.de</p>
                     <p>andreas.falk@novatec-gmbh.de</p>
                     <p>@NT_AQE, @andifalk</p>
                     <img class="plain" src="images/portfolio.png" width="55%">
                 </section>
+                <section data-background="images/evolution.png" data-background-size="75%">
+
+                    <!--<img src="images/evolution.png" class="plain" width="75%">-->
+                </section>
+                <section data-background="images/springproperties.png" data-background-size="85%">
+                </section>
                 <section>
-                    <section>
-                        <h1>Architecture / Threat Model</h1>
-                    </section>
-                    <section data-background="images/threat_architecture.png" data-background-size="90%">
-                        <aside class="notes">
-                            This slide has fragments which are also stepped through in the notes window.
-                        </aside>
-                    </section>
-                    <section tagcloud>
-                        SQLInjection
-                        CSRF
-                        XSS
-                        OWASP
-                        OAuth2
-                        OpenID-Connect
-                        Authentication
-                        Authorization
-                        Secure Coding
-                        Security-Testing
-                    </section>
-                    <section>
-                        <h3>A6: Sensitive Data Exposure</h3>
-                        <img src="images/owasp_top_10_2017.png" class="plain" width="40%" height="40%">
-                        <p><small><a href="https://github.com/OWASP/Top10">https://github.com/OWASP/Top10</a></small></p>
-                    </section>
+                    <h3>A6: Sensitive Data Exposure</h3>
+                    <img src="images/owasp_top_10_2017.png" class="plain" width="40%" height="40%">
+                    <p><small><a href="https://github.com/OWASP/Top10">https://github.com/OWASP/Top10</a></small></p>
+                </section>
+                <section>
+                    <h2>Typical sensitive data</h2>
+                    <p style="color: red" class="fragment fade-up">Passwords</p>
+                    <p style="color: red" class="fragment fade-up">Database credentials</p>
+                    <p style="color: red" class="fragment fade-up">OAuth2 client secrets</p>
+                    <p style="color: red" class="fragment fade-up">Encryption keys</p>
+                    <p style="color: red" class="fragment fade-up">Sensitive user data</p>
+                    <p style="color: red" class="fragment fade-up">Credit card numbers</p>
+                </section>
+                <section>
+                    <h2>Application Properties</h2>
+                    <h4>Database access credentials</h4>
+                    <pre><code class="properties" data-trim>
+                        spring.datasource.url=jdbc:postgresql://localhost/test
+                        spring.datasource.username=root
+                        spring.datasource.password=mysupersecretpassword
+                    </code></pre>
                 </section>
 
                 <!-- Spring Cloud Config -->
@@ -98,55 +99,45 @@
                             Spring Cloud Config
                         </aside>
                     </section>
-                    <section data-background="images/springcloudconfig.png" data-background-size="90%">
-
+                    <section data-background="images/springcloudconfig.png" data-background-size="85%">
                     </section>
                     <section>
-                        <h2>Angular Component</h2>
-                        <h4>Typescript</h4>
-                        <pre><code class="typescript" data-trim contenteditable>
-                            @Component({
-                                selector: 'app-root',
-                                templateUrl: 'app.component.html',
-                                styleUrls: ['app.component.css']
-                            })
-                            export class AppComponent {
+                        <h2>Start with a new config server</h2>
+                        <img src="images/start-spring-io-config-server.png">
+                    </section>
+                    <section>
+                        <h2>Spring Cloud Config Server</h2>
+                        <h4>Just one additional annotation</h4>
+                        <pre><code class="java" data-trim>
+                            @EnableConfigServer
+                            @SpringBootApplication
+                            public class ConfigServerApplication {
 
-                                untrustedHtml:string =
-                                    '&lt;em&gt;&lt;script&gt;alert("hello")&lt;/script&gt;&lt;/em&gt;';
-
+                                public static void main(String[] args) {
+                                    SpringApplication.run(
+                                        ConfigServerApplication.class, args);
+                                }
                             }
                         </code></pre>
                     </section>
                     <section>
-                        <h2>Angular Template</h2>
-                        <h4>HTML Bindings</h4>
-                        <pre><code class="html" data-trim contenteditable>
-                            <h2>Binding of potentially dangerous HTML-snippets</h2>
-
-                            <h3>Encoded HTML snippet</h3>
-                            <h3 class="trusted">{{untrustedHtml}}</h3>
-
-                            <h3>Sanitized HTML snippet</h3>
-                            <h3 class="trusted" [innerHTML]="untrustedHtml"></h3>
+                        <h2>Spring Cloud Config Server</h2>
+                        <h4>Configuration</h4>
+                        <pre><code class="properties" data-trim>
+                            spring.cloud.config.server.git.uri=
+                                https://github.com/andifalk/cloud-config-repository
+                            server.port=8888
+                            security.basic.enabled=true
+                            security.user.name=admin
+                            security.user.password=secret
                         </code></pre>
-                    </section>
-                    <section>
-                        <h2>Unsafe Angular API's</h2>
-                        <img src="images/angular_bypass_security.png" width="40%" height="40%">
-                        <p><b>ElementRef:</b> Direct access to DOM!</p>
-                        <p><b>DomSanitizer:</b> Deactivates XSS-Protection!</p>
-                        <p class="fragment grow highlight-current-red">Do NOT use!</p>
-                        <small><a href="https://angular.io/docs/ts/latest">
-                            https://angular.io/docs/ts/latest</a></small>
                     </section>
                     <section data-background="images/demo.jpg" data-background-size="100%">
                         <h1>Demo</h1>
                     </section>
                 </section>
 
-
-                <!-- Backend -->
+                <!-- Spring Cloud Config Server with encryption -->
 
                 <section>
                     <section>
