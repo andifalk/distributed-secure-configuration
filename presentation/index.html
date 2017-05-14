@@ -54,14 +54,14 @@
                     <img src="images/owasp_top_10_2017.png" class="plain" width="40%" height="40%">
                     <p><small><a href="https://github.com/OWASP/Top10">https://github.com/OWASP/Top10</a></small></p>
                 </section>
-                <section>
+                <section data-background="images/key_heart.jpg">
                     <h2>Typical sensitive data</h2>
-                    <p style="color: red" class="fragment fade-up">Passwords</p>
-                    <p style="color: red" class="fragment fade-up">Database credentials</p>
-                    <p style="color: red" class="fragment fade-up">OAuth2 client secrets</p>
-                    <p style="color: red" class="fragment fade-up">Encryption keys</p>
-                    <p style="color: red" class="fragment fade-up">Sensitive user data</p>
-                    <p style="color: red" class="fragment fade-up">Credit card numbers</p>
+                    <h3 style="color: black" class="fragment fade-up">Passwords</h3>
+                    <h3 style="color: black" class="fragment fade-up">Database credentials</h3>
+                    <h3 style="color: black" class="fragment fade-up">OAuth2 client secrets</h3>
+                    <h3 style="color: black" class="fragment fade-up">Encryption keys</h3>
+                    <h3 style="color: black" class="fragment fade-up">Sensitive user data</h3>
+                    <h3 style="color: black" class="fragment fade-up">Credit card numbers</h3>
                 </section>
                 <section>
                     <h2>Application Properties</h2>
@@ -131,6 +131,9 @@
                             security.user.name=admin
                             security.user.password=secret
                         </code></pre>
+                        <p class="fragment" data-code-focus="1-2">
+                            Location of git repository
+                        </p>
                     </section>
                     <section data-background="images/demo.jpg" data-background-size="100%">
                         <h1>Demo</h1>
@@ -140,271 +143,111 @@
                 <!-- Spring Cloud Config Server with encryption -->
 
                 <section>
-                    <section>
-                        <h1>Backend</h1>
-                        <img src="images/spring_stack.jpg" width="40%" height="40%">
-                    </section>
-                    <section>
-                        <h2>Spring MVC + Spring Data JPA</h2>
-                        <h4>Prevent Injections using Bean Validation</h4>
-                        <pre><code class="java" data-trim contenteditable>
-                            @Entity
-                            public class Person extends AbstractPersistable&lt;Long&gt; {
-
-                               @NotNull
-                               @Pattern(regexp = "^[A-Za-z0-9- ]{1,30}$")
-                               private String lastName;
-
-                               @NotNull
-                               @Enumerated(EnumType.STRING)
-                               private GenderEnum gender;
-                               ...
-                            }
-                         </code></pre>
-                    </section>
-                    <section>
-                        <h2>Spring Data JPA</h2>
-                        <h4>Prevent SQL-Injection using Prepared Statements</h4>
-                        <pre><code class="java" data-trim contenteditable>
-                            @Query(
-                            "select u from User u where u.username = "
-                            + " :username and u.password = :password")
-                            User findByUsernameAndPassword(
-                                 @Param("username") String username,
-                                 @Param("password") String password);
-                        </code></pre>
-                    </section>
-                    <section>
-                        <h3>A8: Cross-Site Request Forgery (CSRF)</h3>
-                        <img src="images/owasp_top_10_2017.png" class="plain" width="40%" height="40%">
-                    </section>
-                    <section>
-                        <h2>Double Submit CSRF Token</h2>
-                        <img src="images/csrf.jpg">
-                    </section>
-                    <section>
-                        <h1>Spring Security</h1>
-                        <h2>Secure By Default</h2>
-                        <ul>
-                            <li class="fragment">Authentication required for all HTTP endpoints</li>
-                            <li class="fragment">Session Fixation Protection</li>
-                            <li class="fragment">Session Cookie (HttpOnly, Secure)</li>
-                            <li class="fragment">CSRF Protection</li>
-                            <li class="fragment">Security Response Header</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <h2>Spring Security CSRF Configuration</h2>
-                        <h3>Angular Support</h3>
-                        <pre><code class="java" data-trim contenteditable>
-                            @Configuration
-                            public class WebSecurityConfiguration
-                                extends WebSecurityConfigurerAdapter {
-
-                                @Override
-                                protected void configure(HttpSecurity http)
-                                    throws Exception {
-                                    …
-                                    http
-                                       .csrf().csrfTokenRepository(
-                                          CookieCsrfTokenRepository.withHttpOnlyFalse()
-                                       );
-                            }
-                        </code></pre>
-                    </section>
-                    <section>
-                        <h1>Who am I?</h1>
-                        <h4>A2: Broken Authentication and Session Management</h4>
-                        <h4>A10: Underprotected APIs</h4>
-                        <img src="images/owasp_top_10_2017.png" width="20%" height="20%">
-                    </section>
-                    <section>
-                        <h3>Authentication (Stateful or Stateless?)</h3>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Session Cookie</th>
-                                <th>Token (Bearer, JWT)</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>With each Request</td>
-                                <td>Manually as Header</td>
-                            </tr>
-                            <tr>
-                                <td>Potential CSRF!</td>
-                                <td>No CSRF possible</td>
-                            </tr>
-                            <tr>
-                                <td>Persisted when unloading DOM</td>
-                                <td>No automatic persistence</td>
-                            </tr>
-                            <tr>
-                                <td>One domain</td>
-                                <td>Cross domain (CORS)</td>
-                            </tr>
-                            <tr>
-                                <td>Sensitive Information (HTTPS)</td>
-                                <td>Sensitive Information (HTTPS)</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </section>
-                    <section>
-                        <h2>OAuth 2</h2>
-                        <img src="images/authserver.jpg">
-                    </section>
-                    <section>
-                        <h2>OpenID Connect</h2>
-                        <img src="images/identityserver.jpg">
-                    </section>
-                    <section>
-                        <h2>OAuth 2 / OpenId Connect Resource</h2>
-                        <pre><code class="java" data-trim >
-                            @EnableResourceServer
-                            @Configuration
-                            public class OAuth2Configuration {
-                                @Bean
-                                public JwtAccessTokenConverterConfigurer
-                                            jwtAccessTokenConverterConfigurer() {
-                                    return new MyJwtConfigurer(...);
-                                }
-                                static class MyJwtConfigurer
-                                        implements JwtAccessTokenConverterConfigurer {
-                                    @Override
-                                    public void configure(
-                                        JwtAccessTokenConverter converter) {...}
-                                }
-                            }
-                        </code></pre>
-                        <small>
-                            <a href="https://tools.ietf.org/html/rfc6819">OAuth 2.0 Threat Model and Security Considerations</a>
-                        </small>
-                    </section>
-                    <section>
-                        <h1>Implicit Grant</h1>
-                        <img src="images/angular2-logo.png" class="plain" width="20%">
+                    <section data-background="images/cloud.jpg">
+                        <h1>Spring Cloud Config</h1>
+                        <h2>Encryption and Decryption</h2>
+                        <img src="images/secure_spring_cloud.png" class="plain">
+                        <p>
+                            <small><a style="color: black" href="https://cloud.spring.io/spring-cloud-config">
+                                https://cloud.spring.io/spring-cloud-static/Dalston.RELEASE/#_security</a></small>
                         </p>
-                        <small>
-                            <a href="https://openid.net/specs/openid-connect-implicit-1_0.html">Implicit Client Implementer’s Guide</a><br>
-                            <a href="https://tools.ietf.org/html/rfc6819">OAuth 2.0 Threat Model and Security Considerations</a>
-                        </small>
                     </section>
                     <section>
-                        <h1>Client Credentials Grant</h1>
-                        <img src="images/backend_communication.png">
+                        <h2>Spring Cloud Config Server</h2>
+                        <h4>Symmetric Key Configuration</h4>
+                        <pre><code class="properties" data-trim>
+                            encrypt.key=MyVerySecureEncryptionKey
+                        </code></pre>
                     </section>
                     <section>
-                        <h1>Resource Owner Grant</h1>
-                        <h2 style="color: red" class="fragment fade-up">Do NOT use!</h2>
+                        <h2>Spring Cloud Config Server</h2>
+                        <h4>Key Store Configuration</h4>
+                        <pre><code class="properties" data-trim>
+                            encrypt.key-store.location=classpath:configserver.jks
+                            encrypt.key-store.alias=configserver
+                            encrypt.key-store.password=secret
+                            encrypt.key-store.secret=secret
+                        </code></pre>
                     </section>
                     <section>
-                        <h1>What can I access?</h1>
-                        <h4>A4: Broken Access Control</h4>
-                        <h4>A10: Underprotected APIs</h4>
-                        <img src="images/owasp_top_10_2017.png" width="20%" height="20%">
+                        <h2>Spring Cloud Config Server</h2>
+                        <h4>Key Store Configuration</h4>
+                        <pre><code class="shellsession" data-trim>
+                            curl -u admin:secret -d test http://localhost:8888/encrypt
+                            AQCe+RE4Kk4aifIDeEdUvhjGyK/UptHkr4KwWh5eLQOzbqSeknnM1qhPqdrjyUR4o
+                            aI/DhoUjfjVxyjRupwNs50V/Q3XXb9mP97Jt8AwYLUWa/p0Sas2Li18ZOAOlCbB6Z
+                            UdiIfFPDZ43pu1NvGB9oqgmAMiD5A0bBbaUmnjmmbxlYR3oFOZWUY5jiGwYHCGDpT
+                            BCx8EftOlu8PcD5+DrXsCeuYyjnYNOuBl2YnqFgT1qYmDqz4mq/egrceq1xyxoIsS
+                            ab/It7BYayd2pBwY2PUQ0bmwd5YVTampqOwhV2i74Z8yx6ip7KICz746dkO2yjm1C
+                            +zKFwxg/gJakis/MrTq1cG5hprXo400UrerYgYA6ZRi3VCP8eVeEAdsvHB1j1w=
+                        </code></pre>
                     </section>
-                    <section>
-                        <h2>Authorization of REST API</h2>
-                        <h3>Role based</h3>
-                        <pre><code class="java" data-trim contenteditable>
-                            public class UserBoundaryService {
-
-                                @PreAuthorize("hasRole('ADMIN')")
-                                public List&lt;User&gt; findAllUsers() {...}
-
-                            }
-				    	</code></pre>
-                    </section>
-                    <section>
-                        <h2>Authorization of REST API</h2>
-                        <h3>Permission based</h3>
-                        <pre><code class="java" data-trim contenteditable>
-                            public class TaskBoundaryService {
-
-                                @PreAuthorize("hasPermission(#taskId, 'TASK', 'WRITE')")
-                                public Task findTask(UUID taskId) {...}
-
-                            }
-					    </code></pre>
-                    </section>
-                    <section>
-                        <h2>Authorization of REST API</h2>
-                        <h3>Integrationtest</h3>
-                        <pre><code class="java" data-trim contenteditable>
-                            public class AuthorizationIntegrationTest {
-
-                                @WithMockUser(roles = "ADMIN")
-                                @Test
-                                public void verifyFindAllUsersAuthorized() {...}
-
-                                @WithMockUser(roles = "USER")
-                                @Test(expected = AccessDeniedException.class)
-                                public void verifyFindAllUsersUnauthorized() {...}
-
-                            }
-					</code></pre>
+                    <section data-background="images/babuschka.jpg">
+                        <h1 style="color: white">Key Management</h1>
                     </section>
                     <section data-background="images/demo.jpg" data-background-size="100%">
                         <h1>Demo</h1>
                     </section>
                 </section>
+
+                <!-- Vault -->
+
                 <section>
-                    <section data-background="images/cloud.jpg" data-background-size="100%">
-                        <h1>What about the Cloud?</h1>
+                    <section data-background="images/safe.jpg" data-background-size="100%">
+                        <h1 style="color: white">Vault</h1>
                     </section>
                     <section>
-                        <h2>Good old friends ...und more...</h2>
-                        <span class="fragment highlight-current-red">CSRF</span>
-                        <span class="fragment highlight-current-red">XSS</span>
-                        <span class="fragment highlight-current-red">SQL Injection</span>
-                        <span class="fragment highlight-current-red">Session Fixation</span></br>
-                        <span class="fragment highlight-current-red">Vulnerable Dependencies</span>
-                        <span class="fragment highlight-current-red">Weak Passwords</span></br>
-                        <span class="fragment highlight-current-red">Broken Authorization</span>
-                        <span class="fragment highlight-current-red">Sensitive Data Exposure</span>
-                        <p class="fragment highlight-current-red grow">Distributed DoS</p>
-                        <p class="fragment highlight-current-red grow">Economic DoS</p>
+                        <img src="images/hashicorp_vault.png" class="plain">
+                        <br>
+                            <small><a style="color: black" href="https://www.vaultproject.io/">
+                                https://www.vaultproject.io/</a></small>
+                        <h3 class="fragment">Secret Storage</h3>
+                        <h3 class="fragment">Key Revocation</h3>
+                        <h3 class="fragment">Key Rolling</h3>
+                        <h3 class="fragment">Audit Logs</h3>
                     </section>
-                    <section data-background="images/azure_management_console.png" data-background-size="100%">
-                        <h1 style="color: #6a1520">Weak Passwords</h1>
+                    <section data-background="images/vault_architecture.png" data-background-size="99%">
                     </section>
                     <section>
-                        <h2>So what has been changed</h2>
-                        <h1>in the Cloud?</h1>
+                        <h1>Secret Storage</h1>
+                        <h3 class="fragment">Encryption (AES cypher)</h3>
+                        <h3 class="fragment">Dynamic Secrets</h3>
+                        <h3 class="fragment">Access control policies</h3>
+                        <h3 class="fragment">Lease time (automatic revocation)</h3>
                     </section>
-                    <section data-background="images/cloud-modelle.png" data-background-size="80%">
+                    <section>
+                        <h1>Audit Logs</h1>
+                        <h3 class="fragment">Not active by default</h3>
+                        <h3 class="fragment">Client interaction</h3>
+                        <h3 class="fragment">Sensitive data hashed (HMAC-SHA256)</h3>
+                        <h3 class="fragment">Targets: File, Syslog, Socket</h3>
+                    </section>
+                </section>
+
+                <!-- Spring Cloud Vault Config -->
+                <section>
+                    <section>
+                        <h1>Spring Cloud Vault Config</h1>
                     </section>
                     <section data-background="images/africa.jpg">
                         <h2 style="color: white">Rotate, Repair, Repave</h2>
                         <h4 style="color: whitesmoke">Justin Smith</h4>
                         <blockquote style="color: white" cite="https://thenewstack.io/cloud-foundrys-approach-security-rotate-repair-repave">
                             &ldquo;What if every server inside
-                             my data center had a maximum lifetime
+                            my data center had a maximum lifetime
                             of two hours?
                             This approach would frustrate malware writers...&rdquo;
                         </blockquote>
                     </section>
                 </section>
-                <section>
-                    <section>
-                        <h1>One more thing...</h1>
-                    </section>
-                    <section>
-                        <h3>A7: Insufficient Attack Protection</h3>
-                        <img src="images/owasp_top_10_2017.png" class="plain" width="40%" height="40%">
-                    </section>
-                    <section data-background="images/attacks.png" data-background-size="100%">
-                    </section>
-                </section>
+
+                <!-- The end -->
                 <section data-background="images/key.jpg">
                     <p>http://www.novatec-gmbh.de</br>
                     http://blog.novatec-gmbh.de</p>
                     <p>andreas.falk@novatec-gmbh.de</p>
                     <img src="images/twitter.png" width="50px" class="plain">
                     <p>@NT_AQE, @andifalk</p>
-
                 </section>
 			</div>
 		</div>
