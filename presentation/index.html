@@ -171,15 +171,31 @@
                     </section>
                     <section>
                         <h2>Spring Cloud Config Server</h2>
-                        <h4>Key Store Configuration</h4>
-                        <pre><code class="shellsession" data-trim>
+                        <h4>Encrypting data</h4>
+                        <pre><code class="bash" data-trim>
                             curl -u admin:secret -d test http://localhost:8888/encrypt
-                            AQCe+RE4Kk4aifIDeEdUvhjGyK/UptHkr4KwWh5eLQOzbqSeknnM1qhPqdrjyUR4o
-                            aI/DhoUjfjVxyjRupwNs50V/Q3XXb9mP97Jt8AwYLUWa/p0Sas2Li18ZOAOlCbB6Z
-                            UdiIfFPDZ43pu1NvGB9oqgmAMiD5A0bBbaUmnjmmbxlYR3oFOZWUY5jiGwYHCGDpT
-                            BCx8EftOlu8PcD5+DrXsCeuYyjnYNOuBl2YnqFgT1qYmDqz4mq/egrceq1xyxoIsS
-                            ab/It7BYayd2pBwY2PUQ0bmwd5YVTampqOwhV2i74Z8yx6ip7KICz746dkO2yjm1C
-                            +zKFwxg/gJakis/MrTq1cG5hprXo400UrerYgYA6ZRi3VCP8eVeEAdsvHB1j1w=
+
+                            AQAx/RH8tiJj9V43l4dwAxhh0bXGPYa2UjRGOM8s5z2EmCXWRU5DLPzxGptF08nEo
+                            kE+BfZPm4A3vco3volhWdYQcCAFguX+6LOvoxewv5AyfkIt1E0bTc7sa4wSSeBGG4
+                            SZ1K/nkto4e6jH+5tktLiPpXoABzvy3YsAgXZ6j5zUM320cWEd4QBSoB0mYP5Kfsq
+                            EFbFEUBm2wMyUSFB4/NXn5apn8KZ2c2WTAj/jZlrg/jI4Sz094zDzRaM+iZuqHjaU
+                            xVng+3dTsz9DQ9rhfWFllmrtUyoKwgNWLuegV6neDsHGdz7F1bucvJ2CzEZb3tp76
+                            K2RrP0m9KPesTZMtbUH2/g9uUDORh/95P1s+dRt0QznwlXshtnb8Hu3i7GdkmA=
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Spring Cloud Config Server</h2>
+                        <h4>Decrypting data</h4>
+                        <pre><code class="bash" data-trim>
+                            curl localhost:8888/decrypt -u admin:secret -d AQAx/RH8tiJj9V43l4
+                            dwAxhh0bXGPYa2UjRGOM8s5z2EmCXWRU5DLPzxGptF08nEokE+BfZPm4A3vco3vol
+                            hWdYQcCAFguX+6LOvoxewv5AyfkIt1E0bTc7sa4wSSeBGG4SZ1K/nkto4e6jH+5tk
+                            tLiPpXoABzvy3YsAgXZ6j5zUM320cWEd4QBSoB0mYP5KfsqEFbFEUBm2wMyUSFB4/
+                            NXn5apn8KZ2c2WTAj/jZlrg/jI4Sz094zDzRaM+iZuqHjaUxVng+3dTsz9DQ9rhfW
+                            FllmrtUyoKwgNWLuegV6neDsHGdz7F1bucvJ2CzEZb3tp76K2RrP0m9KPesTZMtbU
+                            H2/g9uUDORh/95P1s+dRt0QznwlXshtnb8Hu3i7GdkmA=
+
+                            test
                         </code></pre>
                     </section>
                     <section data-background="images/babuschka.jpg">
@@ -197,10 +213,9 @@
                         <h1 style="color: white">Vault</h1>
                     </section>
                     <section>
+                        <small><a style="color: black" href="https://www.vaultproject.io/">
+                            https://www.vaultproject.io/</a></small><br>
                         <img src="images/hashicorp_vault.png" class="plain">
-                        <br>
-                            <small><a style="color: black" href="https://www.vaultproject.io/">
-                                https://www.vaultproject.io/</a></small>
                         <h3 class="fragment">Secret Storage</h3>
                         <h3 class="fragment">Key Revocation</h3>
                         <h3 class="fragment">Key Rolling</h3>
@@ -226,7 +241,7 @@
 
                 <!-- Spring Cloud Vault Config -->
                 <section>
-                    <section>
+                    <section data-background="images/cloud.jpg">
                         <h1>Spring Cloud Vault Config</h1>
                     </section>
                     <section data-background="images/africa.jpg">
