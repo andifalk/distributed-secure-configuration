@@ -173,7 +173,7 @@
                         <h2>Spring Cloud Config Server</h2>
                         <h4>Encrypting data</h4>
                         <pre><code class="bash" data-trim>
-                            curl -u admin:secret -d test http://localhost:8888/encrypt
+                            $ curl -u admin:secret -d test http://localhost:8888/encrypt
 
                             AQAx/RH8tiJj9V43l4dwAxhh0bXGPYa2UjRGOM8s5z2EmCXWRU5DLPzxGptF08nEo
                             kE+BfZPm4A3vco3volhWdYQcCAFguX+6LOvoxewv5AyfkIt1E0bTc7sa4wSSeBGG4
@@ -187,7 +187,7 @@
                         <h2>Spring Cloud Config Server</h2>
                         <h4>Decrypting data</h4>
                         <pre><code class="bash" data-trim>
-                            curl localhost:8888/decrypt -u admin:secret -d AQAx/RH8tiJj9V43l4
+                            $ curl localhost:8888/decrypt -u admin:secret -d AQAx/RH8tiJj9V43l4
                             dwAxhh0bXGPYa2UjRGOM8s5z2EmCXWRU5DLPzxGptF08nEokE+BfZPm4A3vco3vol
                             hWdYQcCAFguX+6LOvoxewv5AyfkIt1E0bTc7sa4wSSeBGG4SZ1K/nkto4e6jH+5tk
                             tLiPpXoABzvy3YsAgXZ6j5zUM320cWEd4QBSoB0mYP5KfsqEFbFEUBm2wMyUSFB4/
@@ -233,16 +233,118 @@
                     <section>
                         <h1>Audit Logs</h1>
                         <h3 class="fragment">Not active by default</h3>
-                        <h3 class="fragment">Client interaction</h3>
                         <h3 class="fragment">Sensitive data hashed (HMAC-SHA256)</h3>
                         <h3 class="fragment">Targets: File, Syslog, Socket</h3>
+                        <pre><code class="text" data-trim>
+                            ...
+                            ,"path":"secret/hello","data":null,"remote_address":"127.0.0.1"
+                            ,"wrap_ttl":0,"headers":{}},"response":{"secret":{"lease_id":""}
+                            ,"data":{"value":"hmac-sha256:213d0d2572fe27ffd0cd2d97cf009c2d0
+                                2e97b5af3f81b9af41f593982ffae8c"}},"error":""}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h1>Authentication</h1>
+                        <h3 class="fragment">Token (default)</h3>
+                        <h3 class="fragment">AppId</h3>
+                        <h3 class="fragment">AppRole</h3>
+                        <h3 class="fragment">TLS client certificate</h3>
+                        <h3 class="fragment">AWS, GitHub, ...</h3>
+                    </section>
+                    <section data-background="images/vault_states.png" data-background-size="98%">
+                    </section>
+                    <section>
+                        <h2>Start vault server</h2>
+                        <pre><code class="shell" data-trim>
+                            $ vault server -config=./memory.conf
+                        </code></pre>
+                        <p>memory.conf</p>
+                        <pre><code class="json" data-trim>
+                            storage "inmem" {
+                            }
+                            listener "tcp" {
+                                address     = "127.0.0.1:8200"
+                                tls_disable = 1
+                            }
+                            disable_mlock = true
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Initialize vault server</h2>
+                        <pre><code class="shell" data-trim>
+                            $ vault init -key-shares=5 -key-threshold=2
+
+                            Unseal Key 1: v236b4yJQDnaJ3EmkOhycZTcxTJfMbNeILqxWfRpzGn0
+                            Unseal Key 2: g1tV/d4vp7VVbOu93aHrHZt41xE5YtX7yYBsFMIXGHCf
+                            Unseal Key 3: rAI5FwrVF8XFUD7BOtTer9bL4A39HxHhnXQo85uSyphf
+                            Unseal Key 4: kDSWhVhz8ElKG6Rad51Hw9lv8i6bTHdEdE71vq3sHoE0
+                            Unseal Key 5: 4KUY7CS+UBi5lxlwpCRY+sWXdPFDp68rX2F6bTxT0nHF
+                            Initial Root Token: 68a80410-e315-fc39-d1ad-9864e169a47f
+
+                            Please securely distribute the above keys. When the vault is
+                            re-sealed, restarted, or stopped, you must provide at least 2
+                            of these keys to unseal it again.
+
+                            Vault does not store the master key. Without at least 2 keys,
+                            your vault will remain permanently sealed.
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Unseal vault server</h2>
+                        <pre><code class="shell" data-trim>
+                            $ vault unseal kRumNaaEChanhWqU3qDr0ZQgCLOFtN8MvTqbw4GbgwKQ
+
+                            Sealed: true
+                            Key Shares: 5
+                            Key Threshold: 2
+                            Unseal Progress: 1
+                            Unseal Nonce: 3a7f80b8-9aa4-2338-8a0a-0295331962d7
+
+                            $ vault unseal fBHUx0oOgAMFykhJoOFTFKmezt8LoFQBghWIskbRhaJN
+                            Sealed: false
+                            Key Shares: 5
+                            Key Threshold: 2
+                            Unseal Progress: 0
+                            Unseal Nonce:
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Authenticate with vault server</h2>
+                        <pre><code class="shell" data-trim>
+                            $ vault auth cb3b2d7c-b73d-5c56-6d3f-7afe3f6a14bc
+
+                            Successfully authenticated! You are now logged in.
+                            token: cb3b2d7c-b73d-5c56-6d3f-7afe3f6a14bc
+                            token_duration: 0
+                            token_policies: [root]
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Write and read secrets</h2>
+                        <pre><code class="shell" data-trim>
+                            $ vault write secret/mysecret hello=world
+
+                            Success! Data written to: secret/mysecret
+
+                            $ vault read secret/mysecret
+
+                            Key             	Value
+                            ---             	-----
+                            refresh_interval	768h0m0s
+                            hello           	world
+                        </code></pre>
                     </section>
                 </section>
 
                 <!-- Spring Cloud Vault Config -->
                 <section>
                     <section data-background="images/cloud.jpg">
-                        <h1>Spring Cloud Vault Config</h1>
+                        <h1>Spring Cloud Vault</h1>
+                        <img src="images/spring_cloud_vault.png" class="plain">
+                        <p>
+                            <small><a style="color: black" href="https://github.com/spring-cloud/spring-cloud-vault">
+                                https://github.com/spring-cloud/spring-cloud-vault</a></small>
+                        </p>
                     </section>
                     <section data-background="images/africa.jpg">
                         <h2 style="color: white">Rotate, Repair, Repave</h2>
