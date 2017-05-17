@@ -34,6 +34,7 @@
                 <!-- Introduction -->
                 <section data-background="images/springio.png" data-background-size="90%">
                     <h3>Manage distributed configuration and secrets with Spring Cloud and Vault</h3>
+                    <p>Andreas Falk</p>
                     <p>Friday 19th May, 2017</p>
                 </section>
                 <section data-background="images/novatec-back.png">
@@ -47,7 +48,8 @@
 
                     <!--<img src="images/evolution.png" class="plain" width="75%">-->
                 </section>
-                <section data-background="images/springproperties.png" data-background-size="85%">
+                <section data-background="images/cloud.jpg" data-background-size="100%">
+                    <img src="images/springproperties.png" class="plain">
                 </section>
                 <section>
                     <h3>A6: Sensitive Data Exposure</h3>
@@ -131,6 +133,11 @@
                     </section>
                     <section data-background="images/demo.jpg" data-background-size="100%">
                         <h1>Demo</h1>
+                        <p>
+                            <a style="color: white" href="https://github.com/andifalk/distributed-secure-configuration">
+                            https://github.com/andifalk/distributed-secure-configuration
+                            </a>
+                        </p>
                     </section>
                 </section>
 
@@ -190,6 +197,19 @@
                             H2/g9uUDORh/95P1s+dRt0QznwlXshtnb8Hu3i7GdkmA=
 
                             test
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Spring Cloud Config Server</h2>
+                        <h4>Encrypted sensitive property values</h4>
+                        <pre><code class="bash" data-trim>
+                            secretkey={cipher}AQBcFzU3gDVVdj0P2uX/60LzeFqQi8Bo2sCTOiiMSe+w
+                                Yq4f0smM8HES0TKesr8Nms+EqgV5t9Rld7PGALjVUAAfHjAf6WS1yYz3K+
+                                NvXrgu8umjOyRDxfKBh5OH2jvYX+EiKv/JgwDeUg3TXnTnsheh3Mim0dSu
+                                fkojbBlWxO8HsfW5z1qG9tLSlHnWvtcpIGLdRAUwfcKw+/1SViuYxwi/p9
+                                H+J/SOomr4hjjnCuaFITa0zfQc4XTLOrGxW64dhghDvCgu3BxMe0TRaBci
+                                Ugkqka4zgBmzge0kw7r82b84GELmDGpjDp7HRUB+cVHqzZXuQzQB9vCjq1
+                                xI19e6ZQm62DkOxaqtafGxqw+VmyFl1+XYEs1k2lWkiUMVyJyiixI=
                         </code></pre>
                     </section>
                     <section data-background="images/babuschka.jpg">
@@ -286,7 +306,7 @@
                     <section>
                         <h2>Unseal vault server</h2>
                         <pre><code class="shell" data-trim>
-                            $ vault unseal kRumNaaEChanhWqU3qDr0ZQgCLOFtN8MvTqbw4GbgwKQ
+                            $ vault unseal v236b4yJQDnaJ3EmkOhycZTcxTJfMbNeILqxWfRpzGn0
 
                             Sealed: true
                             Key Shares: 5
@@ -294,7 +314,7 @@
                             Unseal Progress: 1
                             Unseal Nonce: 3a7f80b8-9aa4-2338-8a0a-0295331962d7
 
-                            $ vault unseal fBHUx0oOgAMFykhJoOFTFKmezt8LoFQBghWIskbRhaJN
+                            $ vault unseal rAI5FwrVF8XFUD7BOtTer9bL4A39HxHhnXQo85uSyphf
                             Sealed: false
                             Key Shares: 5
                             Key Threshold: 2
@@ -305,10 +325,10 @@
                     <section>
                         <h2>Authenticate with vault server</h2>
                         <pre><code class="shell" data-trim>
-                            $ vault auth cb3b2d7c-b73d-5c56-6d3f-7afe3f6a14bc
+                            $ vault auth 68a80410-e315-fc39-d1ad-9864e169a47f
 
                             Successfully authenticated! You are now logged in.
-                            token: cb3b2d7c-b73d-5c56-6d3f-7afe3f6a14bc
+                            token: 68a80410-e315-fc39-d1ad-9864e169a47f
                             token_duration: 0
                             token_policies: [root]
                         </code></pre>
@@ -359,6 +379,11 @@
                 </section>
 
                 <!-- The end -->
+                <section>
+                    <h3><a style="color: white" href="https://www.youtube.com/watch?v=MvPIthr4kXA&t=1601s">
+                        Cloud Native Key Management — Justin Smith (https://www.youtube.com/watch?v=MvPIthr4kXA&t=1601s)
+                    </a></h3>
+                </section>
                 <section data-background="images/key.jpg">
                     <p>http://www.novatec-gmbh.de</br>
                     http://blog.novatec-gmbh.de</p>
