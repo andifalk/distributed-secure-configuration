@@ -13,13 +13,17 @@ public class VaultConfigClient1Application {
     @Value("${mysecret:n/a}")
     private String mySecretKey;
 
-	public static void main(String[] args) {
+    @Value("${foo:n/a}")
+    private String foo;
+
+    public static void main(String[] args) {
 		SpringApplication.run(VaultConfigClient1Application.class, args);
 	}
 
 	@GetMapping(path = "/")
 	public String index() {
-		return "<h1>Application 1</h1><h2>My secret key=" + mySecretKey + "</h2>";
+		return "<h1>Application 1</h1><h2>My secret key="
+                + mySecretKey + "</h2><h2>Foo=" + foo + "</h2>";
 	}
 
 }

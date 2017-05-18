@@ -261,13 +261,6 @@
                         <h3 class="fragment">Lease time (automatic revocation)</h3>
                     </section>
                     <section>
-                        <h1>Secret Backends</h1>
-                        <h3 class="fragment">Encryption (AES cypher)</h3>
-                        <h3 class="fragment">Dynamic Secrets</h3>
-                        <h3 class="fragment">Access control policies</h3>
-                        <h3 class="fragment">Lease time (automatic revocation)</h3>
-                    </section>
-                    <section>
                         <h1>Audit Logs</h1>
                         <h3 class="fragment">Not active by default</h3>
                         <h3 class="fragment">Sensitive data hashed (HMAC-SHA256)</h3>
@@ -287,6 +280,26 @@
                         <h3 class="fragment">AppRole</h3>
                         <h3 class="fragment">TLS client certificate</h3>
                         <h3 class="fragment">AWS, GitHub, ...</h3>
+                    </section>
+                    <section data-background="images/africa.jpg">
+                        <h2 style="color: white">Rotate, Repair, Repave</h2>
+                        <h4 style="color: whitesmoke">Justin Smith</h4>
+                        <blockquote style="color: white" cite="https://thenewstack.io/cloud-foundrys-approach-security-rotate-repair-repave">
+                            &ldquo;What if every server inside
+                            my data center had a maximum lifetime
+                            of two hours?
+                            This approach would frustrate malware writers...&rdquo;
+                        </blockquote>
+                    </section>
+                    <section>
+                        <h1>Secret Backends</h1>
+                        <h2>Getting dynamic credentials (with lease time)</h2>
+                        <h3 class="fragment">AWS</h3>
+                        <h3 class="fragment">Consul</h3>
+                        <h3 class="fragment">MongoDB</h3>
+                        <h3 class="fragment">Databases (MySQL, PostgreSQL, Cassandra)</h3>
+                        <h3 class="fragment">RabbitMQ</h3>
+                        <h3 class="fragment">and many more...</h3>
                     </section>
                     <section data-background="images/vault_states.png" data-background-size="98%">
                     </section>
@@ -406,15 +419,23 @@
                             }
                         </code></pre>
                     </section>
-                    <section data-background="images/africa.jpg">
-                        <h2 style="color: white">Rotate, Repair, Repave</h2>
-                        <h4 style="color: whitesmoke">Justin Smith</h4>
-                        <blockquote style="color: white" cite="https://thenewstack.io/cloud-foundrys-approach-security-rotate-repair-repave">
-                            &ldquo;What if every server inside
-                            my data center had a maximum lifetime
-                            of two hours?
-                            This approach would frustrate malware writers...&rdquo;
-                        </blockquote>
+                    <section>
+                        <h1>Secret data mapping</h1>
+                        <h4>boostrap.properties</h4>
+                        <pre><code class="properties" data-trim>
+                            spring.cloud.vault.generic.application-name =
+                                    application1,additional/keys
+                            #spring.cloud.vault.application-name = ...
+                            #spring.application.name = ...
+                        </code></pre>
+                        <h4>Mapped secret paths in vault</h4>
+                        <pre><code class="uri" data-trim>
+                            /secret/application1
+                            /secret/application1/myprofile
+                            /secret/additional/keys
+                            /secret/application
+                            /secret/application/myprofile
+                        </code></pre>
                     </section>
                     <section data-background="images/demo.jpg" data-background-size="100%">
                         <h1>Demo</h1>
