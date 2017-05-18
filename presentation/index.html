@@ -259,6 +259,10 @@
                         <h3 class="fragment">Dynamic Secrets</h3>
                         <h3 class="fragment">Access control policies</h3>
                         <h3 class="fragment">Lease time (automatic revocation)</h3>
+                        <aside class="notes">
+                            Advanced Encryption Standard
+
+                        </aside>
                     </section>
                     <section>
                         <h1>Audit Logs</h1>
@@ -293,13 +297,13 @@
                     </section>
                     <section>
                         <h1>Secret Backends</h1>
-                        <h2>Getting dynamic credentials (with lease time)</h2>
-                        <h3 class="fragment">AWS</h3>
-                        <h3 class="fragment">Consul</h3>
-                        <h3 class="fragment">MongoDB</h3>
-                        <h3 class="fragment">Databases (MySQL, PostgreSQL, Cassandra)</h3>
-                        <h3 class="fragment">RabbitMQ</h3>
-                        <h3 class="fragment">and many more...</h3>
+                        <h3>Getting dynamic credentials (with lease time)</h3>
+                        <h4 class="fragment">AWS</h4>
+                        <h4 class="fragment">Consul</h4>
+                        <h4 class="fragment">MongoDB</h4>
+                        <h4 class="fragment">Databases (MySQL, PostgreSQL, Cassandra)</h4>
+                        <h4 class="fragment">RabbitMQ</h4>
+                        <h4 class="fragment">and many more...</h4>
                     </section>
                     <section data-background="images/vault_states.png" data-background-size="98%">
                     </section>
@@ -318,6 +322,19 @@
                             }
                             disable_mlock = true
                         </code></pre>
+                        <aside class="notes">
+                            disable_mlock (bool: false) –
+                            Disables the server from executing the mlock syscall.
+                            mlock prevents memory from being swapped to disk.
+                            Vault only supports memory locking on UNIX-like systems that
+                            support the mlock() syscall (Linux, FreeBSD, etc).
+                        </aside>
+                    </section>
+                    <section data-background="images/key_shares.png" data-background-size="100%">
+                        <aside class="notes">
+                            Vault uses a technique known as Shamir's secret sharing algorithm to split
+                            the master key into 5 shares, any 3 of which are required to reconstruct the master key.
+                        </aside>
                     </section>
                     <section>
                         <h2>Initialize vault server</h2>
@@ -449,8 +466,10 @@
                     <ul>
                         <li><a href="https://cloud.spring.io/spring-cloud-config/">Spring Cloud Config (https://cloud.spring.io/spring-cloud-config/)</a></li>
                         <li><a href="https://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.3.0.RELEASE/#_security">Spring Cloud Config Security (http://cloud.spring.io/spring-cloud-static/spring-cloud-config/1.3.0.RELEASE/#_security)</a></li>
+                        <li><a href="https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing">Shamir's secret sharing algorithm (https://en.wikipedia.org/wiki/Shamir's_Secret_Sharing)</a></li>
                         <li><a href="https://cloud.spring.io/spring-cloud-vault">Spring Cloud Vault (https://cloud.spring.io/spring-cloud-vault)</a></li>
                         <li><a href="https://www.vaultproject.io">Vault (https://www.vaultproject.io)</a></li>
+                        <li><a href="https://www.hashicorp.com/blog/cloud-foundry-vault-service-broker">Cloud Foundry Vault Service Broker (https://www.hashicorp.com/blog/cloud-foundry-vault-service-broker)</a></li>
                         <li><a href="https://www.youtube.com/watch?v=MvPIthr4kXA&t=1601s">Cloud Native Key Management — Justin Smith (https://www.youtube.com/watch?v=MvPIthr4kXA&t=1601s)</a></li>
                         <li><a href="https://github.com/andifalk/distributed-secure-configuration">Sources and Presentation (https://github.com/andifalk/distributed-secure-configuration)</a></li>
                     </ul>
