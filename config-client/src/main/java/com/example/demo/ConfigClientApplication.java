@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class ConfigClientApplication {
 
-	@Value("${msg}")
+	@Value("${msg:n/a}")
 	private String message;
 
     @Value("${secretkey:n/a}")
@@ -22,7 +22,10 @@ public class ConfigClientApplication {
 
 	@GetMapping("/")
 	public String index() {
-		return "<h1>Message: '" + message + "'</h1><h1>Secret key: '" + secretKey + "'</h1>";
+
+        return "<h1>Config Client</h1><h2>Message: '"
+                + message + "'</h2><h2>Secret key: '"
+                + secretKey + "'</h2>";
 	}
 
 }

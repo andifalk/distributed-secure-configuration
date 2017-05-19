@@ -45,18 +45,17 @@
                     <img class="plain" src="images/portfolio.png" width="55%">
                 </section>
                 <section data-background="images/evolution.png" data-background-size="75%">
-
-                    <!--<img src="images/evolution.png" class="plain" width="75%">-->
+                    <h1>Agenda</h1>
                 </section>
                 <section data-background="images/cloud.jpg" data-background-size="100%">
                     <img src="images/springproperties.png" class="plain">
                 </section>
-                <section data-background="images/blank_template_smaller.png" data-background-size="100%">
+                <section>
                     <h3>A6: Sensitive Data Exposure</h3>
                     <img src="images/owasp_top_10_2017.png" class="plain" width="40%" height="40%">
                     <p><small><a href="https://github.com/OWASP/Top10">https://github.com/OWASP/Top10</a></small></p>
                 </section>
-                <section data-background="images/key_heart.jpg">
+                <section data-background="images/key_heart.jpg" data-background-size="100%">
                     <h2>Typical sensitive data</h2>
                     <h3 style="color: black" class="fragment fade-up">Passwords</h3>
                     <h3 style="color: black" class="fragment fade-up">Database credentials</h3>
@@ -147,14 +146,6 @@
                             security.user.password=secret
                         </code></pre>
                     </section>
-                    <section data-background="images/demo.jpg" data-background-size="100%">
-                        <h1>Demo</h1>
-                        <p>
-                            <a style="color: white" href="https://github.com/andifalk/distributed-secure-configuration">
-                            https://github.com/andifalk/distributed-secure-configuration
-                            </a>
-                        </p>
-                    </section>
                 </section>
 
                 <!-- Spring Cloud Config Server with encryption -->
@@ -178,7 +169,7 @@
                     </section>
                     <section>
                         <h2>Spring Cloud Config Server</h2>
-                        <h4>Key Store Configuration</h4>
+                        <h4>Asymmetric Key Configuration</h4>
                         <pre><code class="properties" data-trim>
                             encrypt.key-store.location=classpath:configserver.jks
                             encrypt.key-store.alias=configserver
@@ -228,9 +219,6 @@
                                 xI19e6ZQm62DkOxaqtafGxqw+VmyFl1+XYEs1k2lWkiUMVyJyiixI=
                         </code></pre>
                     </section>
-                    <section data-background="images/babuschka.jpg">
-                        <h1 style="color: white">Key Management</h1>
-                    </section>
                     <section data-background="images/demo.jpg" data-background-size="100%">
                         <h1>Demo</h1>
                     </section>
@@ -241,6 +229,9 @@
                 <section>
                     <section data-background="images/safe.jpg" data-background-size="100%">
                         <h1 style="color: white">Vault</h1>
+                    </section>
+                    <section data-background="images/babuschka.jpg">
+                        <h1 style="color: white">Key Management</h1>
                     </section>
                     <section>
                         <small><a style="color: black" href="https://www.vaultproject.io/">
@@ -285,15 +276,9 @@
                         <h3 class="fragment">TLS client certificate</h3>
                         <h3 class="fragment">AWS, GitHub, ...</h3>
                     </section>
-                    <section data-background="images/africa.jpg">
-                        <h2 style="color: white">Rotate, Repair, Repave</h2>
-                        <h4 style="color: whitesmoke">Justin Smith</h4>
-                        <blockquote style="color: white" cite="https://thenewstack.io/cloud-foundrys-approach-security-rotate-repair-repave">
-                            &ldquo;What if every server inside
-                            my data center had a maximum lifetime
-                            of two hours?
-                            This approach would frustrate malware writers...&rdquo;
-                        </blockquote>
+                    <section>
+                        <h1>Rotate, Repair, Repave</h1>
+                        <h4>Justin Smith (Pivotal)</h4>
                     </section>
                     <section>
                         <h1>Secret Backends</h1>
@@ -302,8 +287,7 @@
                         <h4 class="fragment">Consul</h4>
                         <h4 class="fragment">MongoDB</h4>
                         <h4 class="fragment">Databases (MySQL, PostgreSQL, Cassandra)</h4>
-                        <h4 class="fragment">RabbitMQ</h4>
-                        <h4 class="fragment">and many more...</h4>
+                        <h4 class="fragment">RabbitMQ, and many more...</h4>
                     </section>
                     <section data-background="images/vault_states.png" data-background-size="98%">
                     </section>
@@ -438,7 +422,7 @@
                     </section>
                     <section>
                         <h1>Secret data mapping</h1>
-                        <h4>boostrap.properties</h4>
+                        <h4>bootstrap.properties</h4>
                         <pre><code class="properties" data-trim>
                             spring.cloud.vault.generic.application-name =
                                     application1,additional/keys
@@ -457,9 +441,41 @@
                     <section data-background="images/demo.jpg" data-background-size="100%">
                         <h1>Demo</h1>
                     </section>
+                    <section>
+                        <h2>Rotate Database Credentials</h2>
+                        <h4>bootstrap.yml</h4>
+                        <pre><code class="yaml" data-trim>
+                            spring.cloud.vault:
+                                postgresql:
+                                    enabled: true
+                                    role: readonly
+                                    backend: postgresql
+                                    username-property: spring.datasource.username
+                                    password-property: spring.datasource.username
+                        </code></pre>
+                    </section>
+                    <section data-background="images/springcloudconfig_vault.png" data-background-size="85%">
+                    </section>
+                    <section>
+                        <h2>Spring Cloud Config Vault Environment Repository</h2>
+                        <h4>application.properties (Config Server)</h4>
+                        <pre><code class="properties" data-trim>
+                            spring.profiles.active=vault
+                            spring.cloud.config.server.vault.host=127.0.0.1
+                            spring.cloud.config.server.vault.port=8200
+                            spring.cloud.config.server.vault.scheme=https
+                        </code></pre>
+                        <h4>bootstrap.properties (Client)</h4>
+                        <pre><code class="properties" data-trim>
+                            spring.cloud.config.token = YourVaultToken
+                        </code></pre>
+                    </section>
                 </section>
 
                 <!-- The end -->
+                <section data-background="images/target.jpg" data-background-size="100%">
+                    <h1 style="color: red">Target Achieved?</h1>
+                </section>
                 <section>
                     <h1>References</h1>
                     <small>
