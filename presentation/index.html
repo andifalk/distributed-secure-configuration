@@ -52,7 +52,7 @@
                 </section>
                 <section>
                     <h3>A6: Sensitive Data Exposure</h3>
-                    <img src="images/owasp_top_10_2017.png" class="plain" width="40%" height="40%">
+                    <img src="images/owasp_top_10_2017.png" class="plain" width="35%" height="35%">
                     <p><small><a href="https://github.com/OWASP/Top10">https://github.com/OWASP/Top10</a></small></p>
                 </section>
                 <section data-background="images/key_heart.jpg" data-background-size="100%">
@@ -514,8 +514,7 @@
                 progress: true,
                 history: true,
                 center: true,
-                slideNumber: 'c',
-
+                pdfMaxPagesPerSlide: 1,
                 allottedTime: 45 * 60 * 1000, // 45 minutes
 
                 transition: 'slide', // none/fade/slide/convex/concave/zoom
@@ -533,6 +532,7 @@
 					}
 				]
 			});
+            Reveal.configure({ slideNumber: 'c/t' });
 		</script>
 	</body>
 </html>
